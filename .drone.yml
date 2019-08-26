@@ -27,6 +27,6 @@ pipeline:
       - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REGISTRY
       - docker rm -f picacomic || true
       - docker pull $DOCKER_REGISTRY/apicon/picacomic
-      - docker run -dt --name picacomic -v /home/app/picacomic/config:/home/app/src/config $DOCKER_REGISTRY/apicon/picacomic:latest
+      - docker run -dt --name picacomic -p 9002:9002 -v /home/app/picacomic/config:/home/app/src/config $DOCKER_REGISTRY/apicon/picacomic:latest
 
 volumes: [/var/run/docker.sock:/var/run/docker.sock]
