@@ -1,0 +1,32 @@
+workspace:
+  base: /go
+  path: src
+
+pipeline:
+  build:
+    image: golang:1.12.4
+    commands:
+      - cd src
+      - export GOPROXY=https://goproxy.io
+      - export GO111MODULE=on
+      - go mod tidy
+      - CGO_ENABLED=0 go build -o picacomic
+
+  publish:
+    image: plugins/docker
+    secrets: [docker_username, docker_password, docker_registry]
+    repo: registry.cn-hongkong.aliyuncs.com/apicon/picacomic
+    dockerfile: ./Dockerfile
+    tags: latest
+
+  deploy:
+    image: docker:latest
+    volumes: [/var/run/docker.sock:/var/run/docker.sock]
+    secrets: [docker_username, docker_password, docker_registry]
+    commands:
+      - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REGISTRY
+      - docker rm -f picacomic || true
+      - docker pull $DOCKER_REGISTRY/apicon/picacomic
+      - docker run -dt --name picacomic -v /home/app/picacomic/config:/home/app/src/config $DOCKER_REGISTRY/apicon/picacomic:latest
+
+volumes: [/var/run/docker.sock:/var/run/docker.sock]
