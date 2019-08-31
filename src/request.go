@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/hmac"
 	"crypto/sha256"
+	"crypto/tls"
 	"encoding/hex"
 	"github.com/bitly/go-simplejson"
 	"github.com/parnurzeal/gorequest"
@@ -61,6 +62,7 @@ func Send(url string, method string, authorization string, payload string) simpl
 			Set("signature", signature).
 			Set("authorization", authorization).
 			Set("Content-Type", "application/json; charset=UTF-8").
+			TLSClientConfig(&tls.Config{ InsecureSkipVerify: true}).
 			End()
 	}else if method == "POST"{
 		_, body, _ = request.Post(url).
@@ -78,6 +80,7 @@ func Send(url string, method string, authorization string, payload string) simpl
 			Set("signature", signature).
 			Set("authorization", authorization).
 			Set("Content-Type","application/json; charset=UTF-8").
+			TLSClientConfig(&tls.Config{ InsecureSkipVerify: true}).
 			Send(payload).
 			End()
 	}
@@ -125,6 +128,7 @@ func GetImage(url string, authorization string) gorequest.Response{
 		Set("signature", signature).
 		Set("authorization", authorization).
 		Set("Content-Type", "application/json; charset=UTF-8").
+		TLSClientConfig(&tls.Config{ InsecureSkipVerify: true}).
 		End()
 
 	return resp
