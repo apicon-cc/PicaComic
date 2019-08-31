@@ -93,11 +93,11 @@ func Send(url string, method string, authorization string, payload string) simpl
 func GetImage(url string, authorization string) gorequest.Response{
 
 	url = "https://s3.picacomic.com/static" + url
-	secretKey := "~n}$S9$lGts=U)8zfL/R.PM9;4[3|@/CEsl~Kk!7?BYZ:BAa5zkkRBL7r|1/*Cr"
+	secretKey := "~d}$Q7$eIni=V)9\\RK/P.RM4;9[7|@/CA}b~OW!3?EV`:<>M7pddUBL5n|0/*Cn"
 	apiKey := "C69BAF41DA5ABD1FFEDC6D2FEA56B"
-	appVersion := "2.1.0.7"
+	appVersion := "2.2.0.0.1.1"
 	appChannel := "1"
-	buildVersion := "40"
+	buildVersion := "42"
 	accept := "application/vnd.picacomic.com.v1+json"
 	appPlatform := "android"
 	appUUID := UUID.NewV4().String()
@@ -111,7 +111,7 @@ func GetImage(url string, authorization string) gorequest.Response{
 	signature = strings.ToLower(signature)
 	signature = computeHmacSha256(signature, secretKey)
 
-	request := gorequest.New().Proxy("http://127.0.0.1:1080")
+	request := gorequest.New()
 
 	resp, _, _ := request.Get(url).
 		Set("api-key", apiKey).

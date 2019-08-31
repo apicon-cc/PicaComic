@@ -9,8 +9,8 @@ func (s *Service) initRouter() {
 	r := gin.Default()
 
 	{
-		//GET /authorization
-		r.POST("/authorization", func(c *gin.Context) {
+		//POST /token
+		r.POST("/token", func(c *gin.Context) {
 			c.JSON(s.Login(c))
 		})
 	}
