@@ -70,7 +70,7 @@ func (s *Service) ComicDetail(c *gin.Context) (int, interface{}){
 
 func (s *Service) ComicMedia(c *gin.Context) gorequest.Response{
 	token := c.GetHeader("token")
-	url := c.Param("url")
+	url, _ := c.GetQuery("url")
 
 	picture := GetImage("/" + url, token)
 	return picture
