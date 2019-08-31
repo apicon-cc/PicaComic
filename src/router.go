@@ -10,7 +10,7 @@ func (s *Service) initRouter() {
 
 	{
 		//GET /authorization
-		r.GET("/authorization", func(c *gin.Context) {
+		r.POST("/authorization", func(c *gin.Context) {
 			c.JSON(s.Login(c))
 		})
 	}
